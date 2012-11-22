@@ -4,13 +4,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "questao")
-@SequenceGenerator(name = "seq_id_questao", sequenceName = "seq_id_questao")
 public class Questao {
 
 	@Id
 	@Column(name = "id_questao")
-	@GeneratedValue(strategy = GenerationType.AUTO, generator = "seq_id_questao")
-	private int id_questao;
+	private int idQuestao;
 	
 	@Column(name = "ds_enunciado")
 	private String enunciado;
@@ -36,12 +34,12 @@ public class Questao {
 	@Column(name = "in_tipo")
 	private String tipo;
 	
-	public int getId_questao() {
-		return id_questao;
+	public int getIdQuestao() {
+		return idQuestao;
 	}
 
-	public void setId_questao(int id_questao) {
-		this.id_questao = id_questao;
+	public void setId(int idQuestao) {
+		this.idQuestao = idQuestao;
 	}
 
 	public String getEnunciado() {

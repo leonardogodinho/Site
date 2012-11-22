@@ -13,9 +13,10 @@ public class Conexao {
 	{
 		if(fabrica == null)
 			fabrica = new AnnotationConfiguration()
+							.addAnnotatedClass(Requisito.class)
 							.addAnnotatedClass(Usuario.class)
 							.addAnnotatedClass(Colaborador.class)
-							.addAnnotatedClass(Requisito.class)
+							.addAnnotatedClass(ItemRequisito.class)
 							.addAnnotatedClass(Oportunidade.class)
 							.addAnnotatedClass(Questao.class)
 							.buildSessionFactory();

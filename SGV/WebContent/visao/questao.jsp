@@ -8,7 +8,7 @@
    if(q==null)
    {
 	   q = new Questao();
-	   q.setId_questao(0);
+	   q.setId(0);
 	   q.setEnunciado("");
 	   q.setRespostaA("");
 	   q.setRespostaB("");
@@ -34,6 +34,8 @@
 		<fieldset>
 			<legend>Dados da questão</legend>
 			<br>
+			ID <input type="text" name="id" />
+			<br><br>
 			Enunciado&nbsp;&nbsp;&nbsp;
 			<input type="text" name="enunciado" size="90" value="<%=q.getEnunciado() %>" />
 			<br><br>
@@ -106,7 +108,7 @@
 				   {
 						out.write("<tr>");
 						Questao q = (Questao)o;
-						out.write("<td>" + q.getId_questao() + "</td>");
+						out.write("<td>" + q.getIdQuestao() + "</td>");
 						out.write("<td>" + q.getEnunciado() + "</td>");
 						out.write("<td>" + q.getRespostaA() + "</td>");
 						out.write("<td>" + q.getRespostaB() + "</td>");

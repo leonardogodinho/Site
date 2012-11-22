@@ -8,7 +8,7 @@
    if(o==null)
    {
 	   o = new Oportunidade();
-	   o.setId_oportunidade(0);	   
+	   o.setIdOportunidade(0);
    }
 %>
 <head>
@@ -45,15 +45,20 @@ $(function() {
 </script>
 </head>
 <body>
-<%! ArrayList requisitos; %>
+<%! ArrayList requisitos,itens; %>
 <% requisitos = (ArrayList) session.getAttribute("requisitos");
+   itens = (ArrayList) session.getAttribute("itens");
 
    if(requisitos == null)
 	   requisitos = new ArrayList();
+   if(itens == null)
+	   itens = new ArrayList();
 %>
 	<form action="http://localhost:8080/SGV/Controle" method="GET">
 	<fieldset id="dadosVaga">
 		<legend>Dados da Vaga</legend>
+		<br>
+		ID <input type="text" name="id" />
 		<br>
 		Título <input type="text" name="titulo" />
 		<br><br>
@@ -71,7 +76,7 @@ $(function() {
 			<option value="adm">Administrativo</option>
 		</select>
 		<br><br>
-		Salário <input type="text" name="salario" />
+		Salário <input type="text" name="salario" value="0.0" />
 		<br><br>
 		Descrição, principais atividades e detalhes
 		<br><br>
@@ -95,47 +100,34 @@ $(function() {
 			Requisito&nbsp;&nbsp;&nbsp;
 			<select name="requisito">
 				<option value="">__________________</option>
-				<% String aux = "";
-					for(Object obj:requisitos)
+				<% for(Object obj:requisitos)
 				   {
 						Requisito r = (Requisito)obj;
-						if(o.getR().getId_requisito() == r.getId_requisito())
-							aux = " selected";
-						
-						out.write("<option value=" + r.getId_requisito() + aux + ">" + 
-								"Experiência: " + r.getTempoExperiencia() + " meses, Contratação: " + 
-								r.getTempoContratacao() + " mes(es), Faltas: " + r.getFaltas() + "</option>");
+						out.write("<option value=" + r.getDescricao() + ">" + 
+								r.getDescricao() + "</option>");
 						
 				   }	
 					%>
-			</select>
+			</select>&nbsp;&nbsp;&nbsp;
+			Quantidade
+			<input type="text" name="quantidade" size=2/>&nbsp;&nbsp;&nbsp;
+			<input type="submit" name="comando" value="Adicionar" style="width:80px;" />
+			<input type="submit" name="comando" value="Remover" style="width:80px;" />
 			<br><br>
+			<table style="border: 1px solid;">
+				<tr>
+					<td></td>
+				</tr>
+				<tr>					
+					<% for(Object o:itens)
+				   {
+						ItemRequisito i = (ItemRequisito)o;
+						out.write("<td>" + i.getR().getDescricao() + "    " + i.getQuantidade() + "</td>");
+				   }	
+					%>
+				</tr>
+			</table>
 	</fieldset>
-	<%--
-	<fieldset id="prova">
-		<legend>Prova</legend>
-		<br>
-		Questões gerais&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<select name="questoesGerais">
-			<option value="3">3</option>
-			<option value="5">5</option>
-			<option value="10">10</option>
-		</select>
-		<br><br>
-		Questões específicas&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<select name="questoesEspecificas">
-			<option value="3">3</option>
-			<option value="5">5</option>
-			<option value="10">10</option>
-		</select>
-		<br><br>
-		Peso 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<select name="peso">
-			<option value="gerais">Gerais</option>
-			<option value="especificas">Específicas</option>
-		</select>
-		<br><br>
-	</fieldset> --%>
 	<input type="submit" name="comando" value="Publicar Vaga" />
 	<input type="hidden" name="tela" value="TelaOportunidade" />
 	</form>

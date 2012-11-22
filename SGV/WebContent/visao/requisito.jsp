@@ -11,6 +11,8 @@
 	<fieldset id="dados">
 	<legend>Dados</legend>
 	<br>
+	ID <input type="text" name="id" />
+	<br>
 	Nome do Requisito&nbsp;&nbsp;&nbsp;
 	<input type="text" name="nome" size="60	"/>
 	<br><br>

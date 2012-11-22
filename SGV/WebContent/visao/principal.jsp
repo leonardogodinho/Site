@@ -15,6 +15,8 @@ TELA PRINCIPAL DO SISTEMA DE GERENCIAMENTO DE VAGAS
 	                <li><a href="http://localhost:8080/SGV/Controle?tela=principal&comando=TelaOportunidades"><span>Oportunidade</span></a></li>
 	            	<li><a href="http://localhost:8080/SGV/Controle?tela=principal&comando=TelaRequisitos"><span>Requisito</span></a></li>
 	            	<li><a href="http://localhost:8080/SGV/Controle?tela=principal&comando=TelaQuestoes"><span>Questão</span></a></li>
+	            	<li><a href="http://localhost:8080/SGV/Controle?tela=principal&comando=TelaUsuarios"><span>Usuários</span></a></li>
+	            	<li><a href="http://localhost:8080/SGV/Controle?tela=principal&comando=TelaColaboradores"><span>Colaboradores</span></a></li>
 	            </ul>
 	        </li>
 	        <li><a href="#" class="parent"><span>Transa&ccedil;&atilde;o</span></a>

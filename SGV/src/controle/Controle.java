@@ -60,6 +60,16 @@ public class Controle extends javax.servlet.http.HttpServlet implements
 			{
 				this.carregaQuestoes(req,res);								
 			}
+			if(comando.equals("TelaUsuarios"))
+			{
+				RequestDispatcher rd = req.getRequestDispatcher("/visao/usuario.jsp");
+				rd.forward(req, res);				
+			}
+			if(comando.equals("TelaColaboradores"))
+			{
+				RequestDispatcher rd = req.getRequestDispatcher("/visao/colaborador.jsp");
+				rd.forward(req, res);				
+			}
 		}
 		
 		if(tela.equals("Login"))
@@ -67,35 +77,53 @@ public class Controle extends javax.servlet.http.HttpServlet implements
 			String comando = req.getParameter("comando");
 			if(comando.equals("Entrar"))
 			{
-				int cpf = Integer.parseInt(req.getParameter("usuario"));
+				String usuario = req.getParameter("usuario");
 				String senha = req.getParameter("senha");
-				try
+				if(usuario.equals("admin") && senha.equals("admin"))
 				{
-					Colaborador c = new Colaborador();
-					c.setCpf(cpf);
-					c.setSenha(senha);
-					DAOLogin daoL = new DAOLogin();
-					if(daoL.logar(c))
+					RequestDispatcher rd = req.getRequestDispatcher("/visao/principal.jsp");
+					rd.forward(req, res);
+				}
+				else
+				{
+					try
 					{
-						RequestDispatcher rd = req.getRequestDispatcher("/visao/principal.jsp");
-						rd.forward(req, res);
+						int cpf = Integer.parseInt(usuario);
+						Colaborador c = new Colaborador();
+						c.setCpf(cpf);
+						c.setSenha(senha);
+						DAOLogin daoL = new DAOLogin();
+						if(daoL.logar(c))
+						{
+							RequestDispatcher rd = req.getRequestDispatcher("/visao/principal.jsp");
+							rd.forward(req, res);
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "Login inválido!");
+							RequestDispatcher rd = req.getRequestDispatcher("/visao/login.jsp");
+							rd.forward(req, res);
+						}
 					}
-					else
+					catch(NumberFormatException ex)
 					{
 						JOptionPane.showMessageDialog(null, "Login inválido!");
 						RequestDispatcher rd = req.getRequestDispatcher("/visao/login.jsp");
 						rd.forward(req, res);
 					}
-				}
-				catch(Exception ex)
-				{
-					ex.printStackTrace();
+					catch(Exception ex)
+					{
+						ex.printStackTrace();
+					}
 				}
 			}
 		}
 		
 		if(tela.equals("TelaOportunidade"))
 		{
+			Oportunidade op = new Oportunidade();
+			
+			int id = Integer.parseInt(req.getParameter("id"));
 			String titulo = req.getParameter("titulo");
 			int cargaHoraria = Integer.parseInt(req.getParameter("cargaHoraria"));
 			String areaAtuacao = req.getParameter("areaAtuacao");
@@ -118,9 +146,34 @@ public class Controle extends javax.servlet.http.HttpServlet implements
 			String beneficios = vt + ";"+ planoSaude + ";"+ cestaBasica + ";" + pl + ";"+ vr + ";"+ planoOdonto;
 			
 			String comando = req.getParameter("comando");
+			if(comando.equals("Adicionar"))
+			{
+				Requisito r = new Requisito();
+				r.setDescricao(req.getParameter("requisito"));
+				
+				HttpSession sessao = (HttpSession)req.getSession();
+				
+				ArrayList itens = (ArrayList)sessao.getAttribute("itens");
+				
+				ItemRequisito i = new ItemRequisito();
+				i.setQuantidade(Integer.parseInt(req.getParameter("quantidade")));
+				i.setR(r);
+				
+				if(itens==null)
+				{
+					itens = new ArrayList();					
+				}
+				
+				itens.add(i);
+				sessao.setAttribute("itens", itens);
+				RequestDispatcher rd = req.getRequestDispatcher("/visao/oportunidades.jsp");
+				rd.forward(req, res);
+			}
+			
 			if(comando.equals("Publicar Vaga"))
 			{
-				Oportunidade op = new Oportunidade();
+				op = new Oportunidade();
+				op.setIdOportunidade(id);
 				op.setTitulo(titulo);
 				op.setCargaHoraria(cargaHoraria);
 				op.setAreaAtuacao(areaAtuacao);
@@ -131,9 +184,9 @@ public class Controle extends javax.servlet.http.HttpServlet implements
 				
 				Requisito r = new Requisito();
 				if(req.getParameter("requisito").equals(""))
-					r.setId_requisito(0);
+					r.setIdRequisito(0);
 				else
-					r.setId_requisito(Integer.parseInt(req.getParameter("requisito")));
+					r.setIdRequisito(Integer.parseInt(req.getParameter("requisito")));
 				//op.setR(r);
 				
 				try
@@ -209,6 +262,178 @@ public class Controle extends javax.servlet.http.HttpServlet implements
 				}
 			}
 		}
+		if(tela.equals("TelaUsuario"))
+		{
+			String id = req.getParameter("id");
+			String cpf = req.getParameter("cpf");
+			String nome = req.getParameter("nome");
+			String depto = req.getParameter("departamento");
+			String email = req.getParameter("email");
+			String senha = req.getParameter("senha");
+			String tipo = req.getParameter("tipoUsuario");
+			
+			String comando = req.getParameter("comando");
+			if(comando.equals("Cadastrar") || comando.equals("Alterar"))
+			{
+				try
+				{
+					Usuario u = new Usuario();
+					u.setIdUsuario(Integer.parseInt(id));
+					u.setCpf(Integer.parseInt(cpf));
+					u.setNome(nome);
+					u.setDepto(depto);
+					u.setEmail(email);
+					u.setSenha(senha);
+					u.setTipo(tipo);
+					
+					DAOUsuario daoU = new DAOUsuario();
+					if(comando.equals("Cadastrar"))
+					{
+						if(daoU.verificaID(u))
+						{
+							daoU.cadastrar(u);
+							JOptionPane.showMessageDialog(null,"Usuário cadastrado com sucesso!");
+						}
+						else
+							JOptionPane.showMessageDialog(null,"O ID " + id + " já está cadastrado! Escolha outro ID!");
+					}
+					else
+					{
+						daoU.alterar(u);
+						JOptionPane.showMessageDialog(null,"Usuário alterado com sucesso!");
+					}
+					RequestDispatcher rd = req.getRequestDispatcher("/visao/usuario.jsp");
+					rd.forward(req, res);
+				}
+				catch(Exception ex)
+				{
+					ex.printStackTrace();
+				}
+			}
+			if(comando.equals("Excluir"))
+			{
+				try
+				{
+					Usuario u = new Usuario();
+					u.setIdUsuario(Integer.parseInt(id));
+					
+					DAOUsuario daoU = new DAOUsuario();
+					daoU.excluir(u);	
+					JOptionPane.showMessageDialog(null,"Usuário removido com sucesso!");
+					RequestDispatcher rd = req.getRequestDispatcher("/visao/usuario.jsp");
+					rd.forward(req, res);
+				}
+				catch(Exception ex)
+				{
+					ex.printStackTrace();
+				}
+			}
+			if(comando.equals("Consultar"))
+			{
+				try
+				{
+					Usuario u = new Usuario();
+					u.setIdUsuario(Integer.parseInt(id));
+					
+					DAOUsuario daoU = new DAOUsuario();
+					u = daoU.consultar(u);
+					req.setAttribute("u", u);
+					RequestDispatcher rd = req.getRequestDispatcher("/visao/usuario.jsp");
+					rd.forward(req, res);
+				}
+				catch(Exception ex)
+				{
+					ex.printStackTrace();
+				}
+			}
+		}
+		if(tela.equals("TelaColaborador"))
+		{
+			String id = req.getParameter("id");
+			String cpf = req.getParameter("cpf");
+			String nome = req.getParameter("nome");
+			String depto = req.getParameter("departamento");
+			String email = req.getParameter("email");
+			String senha = req.getParameter("senha");
+			String tipo = req.getParameter("tipoUsuario");
+			String status = req.getParameter("status");
+			
+			String comando = req.getParameter("comando");
+			if(comando.equals("Cadastrar") || comando.equals("Alterar"))
+			{
+				try
+				{
+					Colaborador c = new Colaborador();
+					c.setIdUsuario(Integer.parseInt(id));
+					c.setCpf(Integer.parseInt(cpf));
+					c.setNome(nome);
+					c.setDepto(depto);
+					c.setEmail(email);
+					c.setSenha(senha);
+					c.setTipo(tipo);
+					c.setStatus(status);
+					
+					DAOColaborador daoC = new DAOColaborador();
+					if(comando.equals("Cadastrar"))
+					{
+						if(daoC.verificaID(c))
+						{
+							daoC.cadastrar(c);
+							JOptionPane.showMessageDialog(null,"Colaborador cadastrado com sucesso!");
+						}
+						else
+							JOptionPane.showMessageDialog(null,"O ID " + id + " já está cadastrado! Escolha outro ID!");
+					}
+					else
+					{
+						daoC.alterar(c);
+						JOptionPane.showMessageDialog(null,"Colaborador alterado com sucesso!");
+					}
+					RequestDispatcher rd = req.getRequestDispatcher("/visao/colaborador.jsp");
+					rd.forward(req, res);
+				}
+				catch(Exception ex)
+				{
+					ex.printStackTrace();
+				}
+			}
+			if(comando.equals("Excluir"))
+			{
+				try
+				{
+					Colaborador c = new Colaborador();
+					c.setIdUsuario(Integer.parseInt(id));
+					
+					DAOColaborador daoC = new DAOColaborador();
+					daoC.excluir(c);	
+					JOptionPane.showMessageDialog(null,"Colaborador removido com sucesso!");
+					RequestDispatcher rd = req.getRequestDispatcher("/visao/colaborador.jsp");
+					rd.forward(req, res);
+				}
+				catch(Exception ex)
+				{
+					ex.printStackTrace();
+				}
+			}
+			if(comando.equals("Consultar"))
+			{
+				try
+				{
+					Colaborador c = new Colaborador();
+					c.setIdUsuario(Integer.parseInt(id));
+					
+					DAOColaborador daoC = new DAOColaborador();
+					c = daoC.consultar(c);
+					req.setAttribute("c", c);
+					RequestDispatcher rd = req.getRequestDispatcher("/visao/colaborador.jsp");
+					rd.forward(req, res);
+				}
+				catch(Exception ex)
+				{
+					ex.printStackTrace();
+				}
+			}
+		}
 	}
 
 	private void carregaQuestoes(HttpServletRequest req,
@@ -229,11 +454,6 @@ public class Controle extends javax.servlet.http.HttpServlet implements
 		}		
 	}
 
-	protected void doPost(HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-	
 	public Date formataData(String data) throws Exception {   
         if (data == null || data.equals(""))  
             return null;  
@@ -246,5 +466,10 @@ public class Controle extends javax.servlet.http.HttpServlet implements
             throw e;  
         }  
         return date;  
-    }  
+    }
+	
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+	}
 }

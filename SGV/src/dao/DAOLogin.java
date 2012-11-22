@@ -1,6 +1,6 @@
 package dao;
 
-import modelo.Colaborador;
+import modelo.*;
 
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
@@ -21,17 +21,16 @@ public class DAOLogin {
 		sessao.close();
 	}
 	
-	public boolean logar(Colaborador c) throws Exception
+	public boolean logar(Usuario u) throws Exception
 	{
 		Session sessao = fabrica.openSession();
-		Criteria cr = sessao.createCriteria(Colaborador.class)
-							.add(Restrictions.eq("cpf", c.getCpf()))
-							.add(Restrictions.eq("senha",c.getSenha()));
-		c = (Colaborador) cr.uniqueResult();
-		if(c==null)
+		Criteria cr = sessao.createCriteria(Usuario.class)
+							.add(Restrictions.eq("cpf", u.getCpf()))
+							.add(Restrictions.eq("senha",u.getSenha()));
+		u = (Usuario) cr.uniqueResult();
+		if(u==null)
 			return false;
 		else
 			return true;			
-		
 	}
 }

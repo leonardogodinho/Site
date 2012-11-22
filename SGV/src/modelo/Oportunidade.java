@@ -9,13 +9,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "oportunidade")
-@SequenceGenerator(name="seq_id_oportunidade", sequenceName="seq_id_oportunidade")
 public class Oportunidade {
 	
 	@Id
 	@Column(name="id_oportunidade")
-	@GeneratedValue(strategy=GenerationType.AUTO, generator="seq_id_oportunidade")
-	private int id_oportunidade;
+	private int idOportunidade;
 	
 	@Column(name="nm_oportunidade")
 	private String titulo;
@@ -39,10 +37,10 @@ public class Oportunidade {
 	private Date dataEncerramento;
 	
 	@ManyToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
-	@JoinTable(name="OporReq"
-			, joinColumns={@JoinColumn(name = "id_oportunidade")}
-			, inverseJoinColumns={@JoinColumn(name="id_requisito")})
-	private Set<Requisito> requisitos;
+	@JoinTable(name="ItemOp"
+			, joinColumns={@JoinColumn(name = "idOportunidade")}
+			, inverseJoinColumns={@JoinColumn(name="idItem")})
+	private Set<ItemRequisito> itens;
 
 	public Date getDataEncerramento() {
 		return dataEncerramento;
@@ -52,12 +50,12 @@ public class Oportunidade {
 		this.dataEncerramento = dataEncerramento;
 	}
 
-	public int getId_oportunidade() {
-		return id_oportunidade;
+	public int getIdOportunidade() {
+		return idOportunidade;
 	}
 
-	public void setId_oportunidade(int id_oportunidade) {
-		this.id_oportunidade = id_oportunidade;
+	public void setIdOportunidade(int idOportunidade) {
+		this.idOportunidade = idOportunidade;
 	}
 
 	public String getTitulo() {
@@ -108,20 +106,12 @@ public class Oportunidade {
 		this.beneficios = beneficios;
 	}
 
-	public Set<Requisito> getRequisitos() {
-		return requisitos;
+	public Set<ItemRequisito> getItens() {
+		return itens;
 	}
 
-	public void setRequisitos(Set<Requisito> requisitos) {
-		this.requisitos = requisitos;
+	public void setItens(Set<ItemRequisito> itens) {
+		this.itens = itens;
 	}
-
-	/*public int getId_perfil() {
-		return id_perfil;
-	}
-
-	public void setId_perfil(int id_perfil) {
-		this.id_perfil = id_perfil;
-	}*/
 
 }

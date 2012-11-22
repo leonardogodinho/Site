@@ -5,18 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-<script type="text/javascript">
-function numbersonly(e) {
-	var unicode= e.charCode? e.charCode : e.keyCode;
-	if (unicode!=8)
-	{ //if the key isn't the backspace key (which we should allow) 
-		if (unicode<48||unicode>57) //if not a number return false //disable key press 
-			return false;
-		else
-			return true;
-	}
-}
-</script>
 </head>
 <body>
 <form action="http://localhost:8080/SGV/Controle" method="GET">
