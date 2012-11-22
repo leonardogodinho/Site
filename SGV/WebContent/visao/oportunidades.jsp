@@ -9,6 +9,13 @@
    {
 	   o = new Oportunidade();
 	   o.setIdOportunidade(0);
+	   o.setAreaAtuacao("");
+	   o.setBeneficios("");
+	   o.setCargaHoraria(0);
+	   o.setDataEncerramento(null);
+	   o.setDescricao("");
+	   o.setSalario(0);
+	   o.setTitulo("");
    }
 %>
 <head>
@@ -58,9 +65,9 @@ $(function() {
 	<fieldset id="dadosVaga">
 		<legend>Dados da Vaga</legend>
 		<br>
-		ID <input type="text" name="id" />
-		<br>
-		Título <input type="text" name="titulo" />
+		ID <input type="text" name="id" value="<%=o.getIdOportunidade() %>" />
+		<br><br>
+		Título <input type="text" name="titulo" value="<%=o.getTitulo() %>" />
 		<br><br>
 		Carga Horária 
 		<select name="cargaHoraria">
@@ -70,17 +77,31 @@ $(function() {
 		<br><br>
 		Área de atuação
 		<select name="areaAtuacao">
-			<option value="desenvolvimento">Desenvolvimento</option>
-			<option value="financeiro">Financeiro</option>
-			<option value="dp">Dpto. Pessoal</option>
-			<option value="adm">Administrativo</option>
-		</select>
+			<%
+				String aux = "", aux1 = "", aux2 = "", aux3 = "", aux4 = "";
+				if(o.getAreaAtuacao().equals("Administrativo"))
+					aux = "selected";
+				if(o.getAreaAtuacao().equals("Comercial"))
+					aux1 = "selected";
+				if(o.getAreaAtuacao().equals("Finanças"))
+					aux2 = "selected";
+				if(o.getAreaAtuacao().equals("TI"))
+					aux3 = "selected";
+				if(o.getAreaAtuacao().equals("Vendas"))
+					aux4 = "selected";
+				out.write("<option value='Administrativo' " + aux + ">Administrativo</option>");
+				out.write("<option value='Comercial' " + aux1 + ">Comercial</option>");
+				out.write("<option value='Finanças' " + aux2 + ">Finanças</option>");
+				out.write("<option value='TI' " + aux3 + ">TI</option>");
+				out.write("<option value='Vendas' " + aux4 + ">Vendas</option>");
+			%>
+			</select>
 		<br><br>
-		Salário <input type="text" name="salario" value="0.0" />
+		Salário <input type="text" name="salario" value="<%=o.getSalario() %>"  />
 		<br><br>
 		Descrição, principais atividades e detalhes
 		<br><br>
-		<textarea rows="10" cols="60" name="descricao"></textarea>
+		<textarea rows="10" cols="60" name="descricao" value="<%=o.getDescricao() %>" ></textarea>
 		<br>
 		Benefícios
 		<br><br>
@@ -91,7 +112,7 @@ $(function() {
 		<input type="checkbox" name="pl" value="pl">PL
 		<input type="checkbox" name="planoOdonto" value="planoOdonto">Plano Odontológico
 		<br><br>
-		Encerramento <input type="text" id="datepicker" name="dataEncerramento" />
+		Encerramento <input type="text" id="datepicker" name="dataEncerramento" value="<%=o.getDataEncerramento() %>"  />
 		<br><br>		
 	</fieldset>
 	<fieldset id="requisitos">
@@ -103,14 +124,14 @@ $(function() {
 				<% for(Object obj:requisitos)
 				   {
 						Requisito r = (Requisito)obj;
-						out.write("<option value=" + r.getDescricao() + ">" + 
+						out.write("<option value=" + r.getNome() + ">" + 
 								r.getDescricao() + "</option>");
 						
 				   }	
 					%>
 			</select>&nbsp;&nbsp;&nbsp;
 			Quantidade
-			<input type="text" name="quantidade" size=2/>&nbsp;&nbsp;&nbsp;
+			<input type="text" name="quantidade" size=2 value=0 />&nbsp;&nbsp;&nbsp;
 			<input type="submit" name="comando" value="Adicionar" style="width:80px;" />
 			<input type="submit" name="comando" value="Remover" style="width:80px;" />
 			<br><br>
@@ -122,13 +143,20 @@ $(function() {
 					<% for(Object o:itens)
 				   {
 						ItemRequisito i = (ItemRequisito)o;
-						out.write("<td>" + i.getR().getDescricao() + "    " + i.getQuantidade() + "</td>");
+						out.write("<tr>");
+						out.write("<td>" + i.getR().getNome() + "    " + i.getQuantidade() + "</td>");
+						out.write("</tr>");
 				   }	
 					%>
 				</tr>
 			</table>
 	</fieldset>
-	<input type="submit" name="comando" value="Publicar Vaga" />
+	<div id="botoes">
+			<input type="submit" name="comando" value="Cadastrar"/>
+			<input type="submit" name="comando" value="Alterar"/>
+			<input type="submit" name="comando" value="Excluir"/>
+			<input type="submit" name="comando" value="Consultar"/>			
+		</div>
 	<input type="hidden" name="tela" value="TelaOportunidade" />
 	</form>
 </body>

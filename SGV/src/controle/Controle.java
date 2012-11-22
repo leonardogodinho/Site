@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -41,6 +42,7 @@ public class Controle extends javax.servlet.http.HttpServlet implements
 					
 					HttpSession sessao = req.getSession();
 					sessao.setAttribute("requisitos", requisitos);
+					sessao.setAttribute("itens", null);					
 					
 					RequestDispatcher rd = req.getRequestDispatcher("/visao/oportunidades.jsp");
 					rd.forward(req, res);
@@ -145,13 +147,23 @@ public class Controle extends javax.servlet.http.HttpServlet implements
 			String planoOdonto = req.getParameter("planoOdonto") != null ? req.getParameter("planoOdonto") : "";
 			String beneficios = vt + ";"+ planoSaude + ";"+ cestaBasica + ";" + pl + ";"+ vr + ";"+ planoOdonto;
 			
+			op.setIdOportunidade(id);
+			op.setTitulo(titulo);
+			op.setCargaHoraria(cargaHoraria);
+			op.setAreaAtuacao(areaAtuacao);
+			op.setSalario(salario);
+			op.setDescricao(descricao);
+			op.setDataEncerramento(encerramento);
+			op.setBeneficios(beneficios.trim());	
+			
 			String comando = req.getParameter("comando");
 			if(comando.equals("Adicionar"))
 			{
-				Requisito r = new Requisito();
-				r.setDescricao(req.getParameter("requisito"));
-				
 				HttpSession sessao = (HttpSession)req.getSession();
+				
+				Requisito r = new Requisito();
+				r.setNome(req.getParameter("requisito"));
+				//r.setDescricao(sessao.getAttribute("nomeRequisito").toString());
 				
 				ArrayList itens = (ArrayList)sessao.getAttribute("itens");
 				
@@ -166,28 +178,39 @@ public class Controle extends javax.servlet.http.HttpServlet implements
 				
 				itens.add(i);
 				sessao.setAttribute("itens", itens);
+				sessao.setAttribute("oportunidade", op);
+				RequestDispatcher rd = req.getRequestDispatcher("/visao/oportunidades.jsp");
+				rd.forward(req, res);
+			}
+			if(comando.equals("Remover"))
+			{
+				Requisito r = new Requisito();
+				r.setNome(req.getParameter("requisito"));
+				
+				HttpSession sessao = (HttpSession)req.getSession();
+				
+				ArrayList itens = (ArrayList)sessao.getAttribute("itens");
+				
+				ItemRequisito i = new ItemRequisito();
+				i.setQuantidade(Integer.parseInt(req.getParameter("quantidade")));
+				i.setR(r);
+				
+				if(itens==null)
+				{
+					itens = new ArrayList();					
+				}
+				
+				itens.remove(i);
+				sessao.setAttribute("itens", itens);
+				sessao.setAttribute("oportunidade", op);
 				RequestDispatcher rd = req.getRequestDispatcher("/visao/oportunidades.jsp");
 				rd.forward(req, res);
 			}
 			
-			if(comando.equals("Publicar Vaga"))
+			if(comando.equals("Cadastrar"))
 			{
-				op = new Oportunidade();
-				op.setIdOportunidade(id);
-				op.setTitulo(titulo);
-				op.setCargaHoraria(cargaHoraria);
-				op.setAreaAtuacao(areaAtuacao);
-				op.setSalario(salario);
-				op.setDescricao(descricao);
-				op.setDataEncerramento(encerramento);
-				op.setBeneficios(beneficios.trim());
-				
-				Requisito r = new Requisito();
-				if(req.getParameter("requisito").equals(""))
-					r.setIdRequisito(0);
-				else
-					r.setIdRequisito(Integer.parseInt(req.getParameter("requisito")));
-				//op.setR(r);
+				HttpSession sessao = (HttpSession)req.getSession();
+				op.setItens(new HashSet((ArrayList)sessao.getAttribute("itens")));
 				
 				try
 				{

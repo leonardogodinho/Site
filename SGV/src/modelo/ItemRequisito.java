@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class ItemRequisito {
 
 	@Id
+	@GeneratedValue
 	@Column(name="id_itemrequisito")
 	private int idItem;
 	
@@ -38,6 +39,17 @@ public class ItemRequisito {
 
 	public void setR(Requisito r) {
 		this.r = r;
+	}
+	
+	public boolean equals(Object o)
+	{
+		if(o!=null)
+		{
+			ItemRequisito i = (ItemRequisito)o;
+			if(i.getIdItem() == this.getIdItem())
+				return true;
+		}
+		return false;
 	}
 }
 

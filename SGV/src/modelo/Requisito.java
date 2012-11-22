@@ -39,4 +39,15 @@ public class Requisito {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+	
+	public boolean equals(Object o)
+	{
+		if(o!=null)
+		{
+			Requisito r = (Requisito)o;
+			if(r.getIdRequisito() == this.getIdRequisito())
+				return true;
+		}
+		return false;
+	}
 }
