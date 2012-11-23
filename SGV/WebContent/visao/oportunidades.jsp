@@ -1,8 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@page import="modelo.*,java.util.*" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<%@include file="header.jsp" %>
+
 <%! Oportunidade o; %>
 <% o = (Oportunidade)request.getAttribute("oportunidade");
    if(o==null)
@@ -18,40 +15,6 @@
 	   o.setTitulo("");
    }
 %>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>SGV - Sistema de Gerenciamento de Vagas</title>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css" />
-<script src="http://code.jquery.com/jquery-1.8.2.js"></script>
-<script src="http://code.jquery.com/ui/1.9.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="/resources/demos/style.css" />
-<script>
-$(function() {
-	$.datepicker.regional['pt'] = {
-        closeText: 'Fechar',
-        prevText: '<Anterior',
-        nextText: 'Seguinte',
-        currentText: 'Hoje',
-        monthNames: ['Janeiro', 'Fevereiro', 'Mar&ccedil;o', 'Abril', 'Maio', 'Junho',
-        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-        monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
-        'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-        dayNames: ['Domingo', 'Segunda-feira', 'Ter&ccedil;a-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'S&aacute;bado'],
-        dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'S&aacute;b'],
-        dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'S&aacute;b'],
-        weekHeader: 'Sem',
-        dateFormat: 'dd/mm/yy',
-        firstDay: 0,
-        isRTL: false,
-        yearSuffix: ''
-    };
-    
-    $.datepicker.setDefaults($.datepicker.regional['pt']);
-    $( "#datepicker" ).datepicker();
-});
-</script>
-</head>
-<body>
 <%! ArrayList requisitos,itens; %>
 <% requisitos = (ArrayList) session.getAttribute("requisitos");
    itens = (ArrayList) session.getAttribute("itens");
@@ -61,64 +24,115 @@ $(function() {
    if(itens == null)
 	   itens = new ArrayList();
 %>
-	<form action="http://localhost:8080/SGV/Controle" method="GET">
+<form action="http://localhost:8080/SGV/Controle" class="formee" method="get">
 	<fieldset id="dadosVaga">
 		<legend>Dados da Vaga</legend>
-		<br>
-		ID <input type="text" name="id" value="<%=o.getIdOportunidade() %>" />
-		<br><br>
-		Título <input type="text" name="titulo" value="<%=o.getTitulo() %>" />
-		<br><br>
-		Carga Horária 
-		<select name="cargaHoraria">
-			<option value="20">20</option>
-			<option value="40">40</option>
-		</select>
-		<br><br>
-		Área de atuação
-		<select name="areaAtuacao">
-			<%
-				String aux = "", aux1 = "", aux2 = "", aux3 = "", aux4 = "";
-				if(o.getAreaAtuacao().equals("Administrativo"))
-					aux = "selected";
-				if(o.getAreaAtuacao().equals("Comercial"))
-					aux1 = "selected";
-				if(o.getAreaAtuacao().equals("Finanças"))
-					aux2 = "selected";
-				if(o.getAreaAtuacao().equals("TI"))
-					aux3 = "selected";
-				if(o.getAreaAtuacao().equals("Vendas"))
-					aux4 = "selected";
-				out.write("<option value='Administrativo' " + aux + ">Administrativo</option>");
-				out.write("<option value='Comercial' " + aux1 + ">Comercial</option>");
-				out.write("<option value='Finanças' " + aux2 + ">Finanças</option>");
-				out.write("<option value='TI' " + aux3 + ">TI</option>");
-				out.write("<option value='Vendas' " + aux4 + ">Vendas</option>");
-			%>
-			</select>
-		<br><br>
-		Salário <input type="text" name="salario" value="<%=o.getSalario() %>"  />
-		<br><br>
-		Descrição, principais atividades e detalhes
-		<br><br>
-		<textarea rows="10" cols="60" name="descricao" value="<%=o.getDescricao() %>" ></textarea>
-		<br>
-		Benefícios
-		<br><br>
-		<input type="checkbox" name="vt" value="vt">VT
-		<input type="checkbox" name="planoSaude" value="planoSaude">Plano de Saúde
-		<input type="checkbox" name="vr" value="vr">VR<br>
-		<input type="checkbox" name="cesta" value="cesta">Cesta Básica
-		<input type="checkbox" name="pl" value="pl">PL
-		<input type="checkbox" name="planoOdonto" value="planoOdonto">Plano Odontológico
-		<br><br>
-		Encerramento <input type="text" id="datepicker" name="dataEncerramento" value="<%=o.getDataEncerramento() %>"  />
-		<br><br>		
+			<div class="grid-1-12">
+				<label for="id" class="bold">ID <em class="formee-req">*</em></label>
+				<input type="text" name="id" id="id" value="<%=o.getIdOportunidade() %>" class="no-margin">
+			</div>
+            <div class="grid-6-12">
+                <label for="titulo" class="bold">Título <em class="formee-req">*</em></label>
+                <input type="text" name="titulo" id="titulo" value="<%=o.getIdOportunidade() %>" class="no-margin" placeholder="Título da Vaga">
+            </div>
+            <div class="grid-5-12">
+                <label class="bold">Área de Atuação</label>
+                <input  type="text" list="areaatuacao" name="area-atuacao" placeholder="Digite ou Selecione a Área na lista" class="no-margin formee-list">
+                <datalist id="areaatuacao">
+					<%
+						String aux = "", aux1 = "", aux2 = "", aux3 = "", aux4 = "";
+						if(o.getAreaAtuacao().equals("Administrativo"))
+							aux = "selected";
+						if(o.getAreaAtuacao().equals("Comercial"))
+							aux1 = "selected";
+						if(o.getAreaAtuacao().equals("Finanças"))
+							aux2 = "selected";
+						if(o.getAreaAtuacao().equals("TI"))
+							aux3 = "selected";
+						if(o.getAreaAtuacao().equals("Vendas"))
+							aux4 = "selected";
+						out.write("<option value='Administrativo' id='area-opt1' " + aux + ">Administrativo</option>");
+						out.write("<option value='Comercial' id='area-opt2' " + aux1 + ">Comercial</option>");
+						out.write("<option value='Finanças' id='area-opt3' " + aux2 + ">Finanças</option>");
+						out.write("<option value='TI' id='area-opt4' " + aux3 + ">TI</option>");
+						out.write("<option value='Vendas' id='area-opt5' " + aux4 + ">Vendas</option>");
+                %>
+                    
+                </datalist>
+			</div>
+            <div class="grid-3-12">
+                <label for="jornada" class="bold">Carga Horária <em class="formee-req">*</em></label>
+                <input type="number" class="no-margin" placeholder="0" id="jornada" name="jornada">
+            </div>
+            <div class="grid-3-12">
+            	<label for="salario" class="bold">Salário (R$)</label>
+                <input type="number" name="salario" id="salario" value="<%=o.getSalario() %>">
+            </div>
+            <div class="grid-6-12">
+                <label class="bold">Benefí­cios</label>
+                <ul class="formee-list">
+                    <li><input type="checkbox" value="Plano de Saúde" id="planoSaude" name="planoSaude"><label for="plano">Plano de Saúde</label></li>
+                    <li><input type="checkbox" value="Ticket Refeição" id="vr" name="vr"><label for="ticket">Ticket Refeição</label></li>
+                    <li><input type="checkbox" value="Cesta Básica" id="cesta" name="cesta"><label for="cesta-basica">Cesta Básica</label></li>
+                    <li><input type="checkbox" value="Participação nos Lucros" id="pl" name="pl"><label for="pl">Participação nos Lucros</label></li>
+                    <li><input type="checkbox" value="Plano Odontológico" id="planoOdontologico" name="planoOdontologico"><label for="dentista">Plano Odontológico</label></li>
+                    <li><input type="checkbox" value="vt" id="vt" name="vt"><label for="vt">Vale Transporte</label></li>
+                </ul>
+            </div>
+            <div class="grid-12-12">
+            	<label for="desc" class="bold">Descrição</label>
+            	<textarea name="descricao" id="descricao" cols="20" rows="30" value="<%=o.getDescricao() %>" placeholder="Descreva e informe todos os detalhes da vaga" class="no-margin"></textarea>
+            </div>        
+            <div class="grid-12-12">
+            	<table class="grid-12-12">
+            		<caption class="grid-12-12"><h2>Requisitos Disponí­veis</h2></caption>
+            		<thead class="grid-12-12">
+            			<tr class="grid-12-12">
+            				<th class="grid-4-12">Nome</th>
+            				<th class="grid-4-12">Quantidade</th>
+            				<th class="grid-4-12">Ativo</th>
+            			</tr>
+					</thead>
+                    <tbody class="grid-12-12">
+                        <tr class="grid-12-12">
+                            <td class="grid-4-12"><div><label for="contratacao">Tempo de Contratação</label></div></td>
+                            <td class="grid-4-12"><div><input type="number" id="contratacao" name="contratacao"></div></td>
+                            <td class="grid-1-12">
+                                <div>
+                                    <ul class="formee-list">
+                                        <li><input type="checkbox" value=""></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="grid-12-12">
+                            <td class="grid-4-12"><div><label for="faltas">Faltas no Último mês</label></div></td>
+                            <td class="grid-4-12"><div><input type="number" id="faltas" name="faltas"></div></td>
+                            <td class="grid-1-12">
+                                <div>
+                                    <ul class="formee-list">
+                                        <li><input type="checkbox" value=""></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>                
+                    </tbody>
+            	</table>
+            </div>    
+            <div class="grid-3-12">
+            	<label for="dataEncerramento" class="bold">Data de Encerramento</label>
+                <input type="date" id="datepiker" name="dataEncerramento" value="<%=o.getDataEncerramento() %>">
+            </div>
+            <div class="grid-5-12"></div>
+            <div class="grid-4-12">
+            	<input type="hidden" name="tela" value="TelaOportunidade" />
+                <input type="submit" name="comando" value="Publicar" class="formee-medium align_center" >
+			</div>
 	</fieldset>
-	<fieldset id="requisitos">
-		<legend>Requisitos do candidato</legend>
-		<br>		
-			Requisito&nbsp;&nbsp;&nbsp;
+</form>
+-=-=-=-==-==-=--=
+
+		
 			<select name="requisito">
 				<option value="">__________________</option>
 				<% for(Object obj:requisitos)

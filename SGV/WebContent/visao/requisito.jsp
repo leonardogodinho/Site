@@ -1,42 +1,65 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ include file="header.jsp" %>
+
 <%@page import="modelo.*" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
 <%! Requisito r; %>
 <% r = (Requisito)request.getAttribute("r");
-   if(r==null)
-   {
-	   r = new Requisito();
-	   r.setIdRequisito(0);
-	   r.setNome("");
-	   r.setDescricao("");
-   }%>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-<form action="http://localhost:8080/SGV/Controle" method="GET">
+	if(r==null)
+	{
+		r = new Requisito();
+		r.setIdRequisito(0);
+		r.setNome("");
+		r.setDescricao("");
+	}%>
+
+<form action="http://localhost:8080/SGV/Controle" class="formee" method="get">
 	<fieldset id="dados">
-	<legend>Dados</legend>
-	<br>
-	ID <input type="text" name="id" value="<%=r.getIdRequisito() %>" />
-	<br><br>
-	Nome do Requisito&nbsp;&nbsp;&nbsp;
-	<input type="text" name="nome" size="60	" value="<%=r.getNome() %>" />
-	<br><br>
-	Descrição&nbsp;&nbsp;&nbsp;
-	<input type="text" name="descricao" size="90" value="<%=r.getDescricao() %>" />
-	<br><br>	
+		<legend>Novo</legend>
+			<div class="grid-1-12">
+				<label for="id" class="bold">ID <em class="formee-req">*</em></label>
+				<input type="text" name="id" id="id" value="<%=r.getIdRequisito() %>" class="no-margin">
+			</div>
+			<div class="grid-6-12">
+            	<label for="nome-requisito" class="bold">Nome do Requisito</label>
+                <input type="text" name="nome" id="nome-requisito" value="<%=r.getNome() %>" class="no-margin">
+            </div>
+            <!-- <input type="text" name="descricao" size="90" value="<%=r.getDescricao() %>" /> -->
+            <div class="grid-5-12">
+            <!-- 
+	            <input type="submit" name="comando" value="Cadastrar"/>
+				<input type="submit" name="comando" value="Alterar"/>
+				<input type="submit" name="comando" value="Excluir"/>
+				<input type="submit" name="comando" value="Consultar"/>
+			 -->
+			<input type=hidden name="tela" value="TelaRequisito"> 
+            	<input type="hidden" name="tela" value="TelaRequisito" />
+                <input type="submit" name="comando" value="Adicioinar" class="formee-small align_center last" >
+			</div>
 	</fieldset>
-	<div id="botoes">
-			<input type="submit" name="comando" value="Cadastrar"/>
-			<input type="submit" name="comando" value="Alterar"/>
-			<input type="submit" name="comando" value="Excluir"/>
-			<input type="submit" name="comando" value="Consultar"/>
-			<input type=hidden name="tela" value="TelaRequisito">				
-		</div>
-	</form>
-</body>
-</html>
+</form>
+<div class="grid-12-12">
+    <table class="grid-12-12" id="table-req">
+        <caption class="grid-12-12"><h2>Requisitos Cadastrados</h2></caption>
+        <thead class="grid-12-12">
+            <tr class="grid-12-12">
+                <th class="grid-1-12">ID</th>
+                <th class="grid-10-12">Titulo</th>
+                <th class="grid-1-12">Status</th>
+            </tr>
+        </thead>
+        <tbody class="grid-12-12">
+            <tr class="grid-12-12">
+                <td class="grid-1-12"><div><p>R01</p></div></td>
+                <td class="grid-10-12"><div><p>Tempo de Casa</p></div></td>
+                <td class="grid-1-12">Inativo</td>
+            </tr>
+            <tr class="grid-12-12">
+                <td class="grid-1-12"><div><p>R02</p></div></td>
+                <td class="grid-10-12"><div><p>Número de Faltas</p></div></td>
+                <td class="grid-1-12">Inativo</td>
+            </tr>
+                            
+        </tbody>
+    </table>
+</div>
+
+<%@ include file="footer.jsp" %>
