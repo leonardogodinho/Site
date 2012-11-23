@@ -62,7 +62,7 @@
 			</div>
             <div class="grid-3-12">
                 <label for="jornada" class="bold">Carga Horária <em class="formee-req">*</em></label>
-                <input type="number" class="no-margin" placeholder="0" id="jornada" name="jornada">
+                <input type="number" class="no-margin" placeholder="0" id="cargaHoraria" name="cargaHoraria">
             </div>
             <div class="grid-3-12">
             	<label for="salario" class="bold">Salário (R$)</label>
