@@ -124,7 +124,7 @@ $(function() {
 				<% for(Object obj:requisitos)
 				   {
 						Requisito r = (Requisito)obj;
-						out.write("<option value=" + r.getNome() + ">" + 
+						out.write("<option value=" + r.getIdRequisito() + ">" + 
 								r.getDescricao() + "</option>");
 						
 				   }	
@@ -144,7 +144,7 @@ $(function() {
 				   {
 						ItemRequisito i = (ItemRequisito)o;
 						out.write("<tr>");
-						out.write("<td>" + i.getR().getNome() + "    " + i.getQuantidade() + "</td>");
+						out.write("<td>" + i.getR().getIdRequisito() + "    " + i.getQuantidade() + "</td>");
 						out.write("</tr>");
 				   }	
 					%>

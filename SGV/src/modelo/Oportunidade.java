@@ -38,8 +38,8 @@ public class Oportunidade {
 	
 	@ManyToMany(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
 	@JoinTable(name="ItemOp"
-			, joinColumns={@JoinColumn(name = "idOportunidade")}
-			, inverseJoinColumns={@JoinColumn(name="idItem")})
+			, joinColumns={@JoinColumn(name = "id_oportunidade")}
+			, inverseJoinColumns={@JoinColumn(name="id_itemrequisito")})
 	private Set<ItemRequisito> itens;
 
 	public Date getDataEncerramento() {

@@ -4,11 +4,12 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "itemrequisito")
+@SequenceGenerator(name="seq_id_itemrequisito", sequenceName="seq_id_itemrequisito")
 public class ItemRequisito {
 
 	@Id
-	@GeneratedValue
 	@Column(name="id_itemrequisito")
+	@GeneratedValue(strategy=GenerationType.AUTO,generator="seq_id_itemrequisito")
 	private int idItem;
 	
 	@Column(name="nr_quantidade")
