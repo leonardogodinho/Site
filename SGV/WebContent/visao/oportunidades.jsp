@@ -133,13 +133,71 @@
 -=-=-=-==-==-=--=
 
 		
+		<form action="http://localhost:8080/SGV/Controle" method="GET">
+	<fieldset id="dadosVaga">
+		<legend>Dados da Vaga</legend>
+		<br>
+		ID <input type="text" name="id" value="<%=o.getIdOportunidade() %>" />
+		<br><br>
+		Título <input type="text" name="titulo" value="<%=o.getTitulo() %>" />
+		<br><br>
+		Carga Horária 
+		<select name="cargaHoraria">
+			<option value="20">20</option>
+			<option value="40">40</option>
+		</select>
+		<br><br>
+		Área de atuação
+		<select name="areaAtuacao">
+			<%
+				//String aux = "", aux1 = "", aux2 = "", aux3 = "", aux4 = "";
+				if(o.getAreaAtuacao().equals("Administrativo"))
+					aux = "selected";
+				if(o.getAreaAtuacao().equals("Comercial"))
+					aux1 = "selected";
+				if(o.getAreaAtuacao().equals("Finanças"))
+					aux2 = "selected";
+				if(o.getAreaAtuacao().equals("TI"))
+					aux3 = "selected";
+				if(o.getAreaAtuacao().equals("Vendas"))
+					aux4 = "selected";
+				out.write("<option value='Administrativo' " + aux + ">Administrativo</option>");
+				out.write("<option value='Comercial' " + aux1 + ">Comercial</option>");
+				out.write("<option value='Finanças' " + aux2 + ">Finanças</option>");
+				out.write("<option value='TI' " + aux3 + ">TI</option>");
+				out.write("<option value='Vendas' " + aux4 + ">Vendas</option>");
+			%>
+			</select>
+		<br><br>
+		Salário <input type="text" name="salario" value="<%=o.getSalario() %>"  />
+		<br><br>
+		Descrição, principais atividades e detalhes
+		<br><br>
+		<textarea rows="10" cols="60" name="descricao" value="<%=o.getDescricao() %>" ></textarea>
+		<br>
+		Benefícios
+		<br><br>
+		<input type="checkbox" name="vt" value="vt">VT
+		<input type="checkbox" name="planoSaude" value="planoSaude">Plano de Saúde
+		<input type="checkbox" name="vr" value="vr">VR<br>
+		<input type="checkbox" name="cesta" value="cesta">Cesta Básica
+		<input type="checkbox" name="pl" value="pl">PL
+		<input type="checkbox" name="planoOdonto" value="planoOdonto">Plano Odontológico
+		<br><br>
+		Encerramento <input type="text" id="datepicker" name="dataEncerramento" value="<%=o.getDataEncerramento() %>"  />
+		<br><br>		
+	</fieldset>
+	<fieldset id="requisitos">
+		<legend>Requisitos do candidato</legend>
+		<br>		
+			Requisito&nbsp;&nbsp;&nbsp;
 			<select name="requisito">
 				<option value="">__________________</option>
 				<% for(Object obj:requisitos)
 				   {
 						Requisito r = (Requisito)obj;
 						out.write("<option value=" + r.getIdRequisito() + ">" + 
-								r.getDescricao() + "</option>");
+								r.getNome() + "</option>");
 						
 				   }	
 					%>
@@ -158,7 +216,7 @@
 				   {
 						ItemRequisito i = (ItemRequisito)o;
 						out.write("<tr>");
-						out.write("<td>" + i.getR().getIdRequisito() + "    " + i.getQuantidade() + "</td>");
+						out.write("<td>" + i.getR().getNome() + "    " + i.getQuantidade() + "</td>");
 						out.write("</tr>");
 				   }	
 					%>
@@ -173,5 +231,6 @@
 		</div>
 	<input type="hidden" name="tela" value="TelaOportunidade" />
 	</form>
+
 </body>
 </html>

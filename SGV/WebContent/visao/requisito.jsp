@@ -24,15 +24,12 @@
             </div>
             <!-- <input type="text" name="descricao" size="90" value="<%=r.getDescricao() %>" /> -->
             <div class="grid-5-12">
-            <!-- 
-	            <input type="submit" name="comando" value="Cadastrar"/>
-				<input type="submit" name="comando" value="Alterar"/>
-				<input type="submit" name="comando" value="Excluir"/>
-				<input type="submit" name="comando" value="Consultar"/>
-			 -->
+            
 			<input type=hidden name="tela" value="TelaRequisito"> 
-            	<input type="hidden" name="tela" value="TelaRequisito" />
-                <input type="submit" name="comando" value="Adicioinar" class="formee-small align_center last" >
+                <input type="submit" name="comando" value="Cadastrar" class="formee-small align_center last" >
+				<input type="submit" name="comando" value="Alterar" class="formee-small align_center last"/>
+				<input type="submit" name="comando" value="Excluir" class="formee-small align_center last"/>
+				<input type="submit" name="comando" value="Consultar" class="formee-small align_center last"/>
 			</div>
 	</fieldset>
 </form>
@@ -43,19 +40,16 @@
             <tr class="grid-12-12">
                 <th class="grid-1-12">ID</th>
                 <th class="grid-10-12">Titulo</th>
-                <th class="grid-1-12">Status</th>
             </tr>
         </thead>
         <tbody class="grid-12-12">
             <tr class="grid-12-12">
                 <td class="grid-1-12"><div><p>R01</p></div></td>
                 <td class="grid-10-12"><div><p>Tempo de Casa</p></div></td>
-                <td class="grid-1-12">Inativo</td>
             </tr>
             <tr class="grid-12-12">
                 <td class="grid-1-12"><div><p>R02</p></div></td>
                 <td class="grid-10-12"><div><p>Número de Faltas</p></div></td>
-                <td class="grid-1-12">Inativo</td>
             </tr>
                             
         </tbody>

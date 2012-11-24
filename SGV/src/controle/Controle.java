@@ -207,8 +207,17 @@ public class Controle extends javax.servlet.http.HttpServlet implements
 			
 			Requisito r = new Requisito();
 			r.setIdRequisito(Integer.parseInt(req.getParameter("requisito")));
-			//r.setDescricao(sessao.getAttribute("nomeRequisito").toString());
 			
+			try
+			{
+				DAORequisito daoR = new DAORequisito();
+				Requisito rNome = daoR.consultar(r);
+				r.setNome(rNome.getNome());
+			}
+			catch(Exception ex)
+			{
+				ex.printStackTrace();
+			}
 			ArrayList itens = (ArrayList)sessao.getAttribute("itens");
 			
 			ItemRequisito i = new ItemRequisito();
@@ -364,19 +373,23 @@ public class Controle extends javax.servlet.http.HttpServlet implements
 	private void carregaTelaQuestoes(HttpServletRequest req,
 			HttpServletResponse res) throws ServletException, IOException
 	{
-
-		String enunciado = req.getParameter("enunciado");
-		String respostaA = req.getParameter("respostaA");
-		String respostaB = req.getParameter("respostaB");
-		String respostaC = req.getParameter("respostaC");
-		String respostaD = req.getParameter("respostaD");
-		String respCerta = req.getParameter("respCerta");
-		String status = req.getParameter("status");
 		
 		String comando = req.getParameter("comando");
 		if(comando.equals("Cadastrar"))
 		{
+			String id = req.getParameter("id");
+			String enunciado = req.getParameter("enunciado");
+			String respostaA = req.getParameter("respostaA");
+			String respostaB = req.getParameter("respostaB");
+			String respostaC = req.getParameter("respostaC");
+			String respostaD = req.getParameter("respostaD");
+			String respCerta = req.getParameter("respCerta");
+			String status = req.getParameter("status");
+			String tipo = req.getParameter("tipo-questao");
+			
 			Questao q = new Questao();
+			
+			q.setIdQuestao(Integer.parseInt(id));
 			q.setEnunciado(enunciado);
 			q.setRespostaA(respostaA);
 			q.setRespostaB(respostaB);
@@ -384,6 +397,7 @@ public class Controle extends javax.servlet.http.HttpServlet implements
 			q.setRespostaD(respostaD);
 			q.setRespCerta(respCerta);
 			q.setStatus(status);
+			q.setTipo(tipo);
 			try
 			{
 				DAOQuestao daoQ = new DAOQuestao();
@@ -395,6 +409,18 @@ public class Controle extends javax.servlet.http.HttpServlet implements
 			{
 				ex.printStackTrace();
 			}
+		}
+		if(comando.contains("Editar"))
+		{
+			String id = req.getParameter("id");
+			String enunciado = req.getParameter("enunciado");
+			String respostaA = req.getParameter("respostaA");
+			String respostaB = req.getParameter("respostaB");
+			String respostaC = req.getParameter("respostaC");
+			String respostaD = req.getParameter("respostaD");
+			String respCerta = req.getParameter("respCerta");
+			String status = req.getParameter("status");
+			String tipo = req.getParameter("tipo-questao");
 		}
 	}
 	

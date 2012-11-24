@@ -10,6 +10,14 @@ public class Questao {
 	@Column(name = "id_questao")
 	private int idQuestao;
 	
+	public int getIdQuestao() {
+		return idQuestao;
+	}
+
+	public void setIdQuestao(int idQuestao) {
+		this.idQuestao = idQuestao;
+	}
+
 	@Column(name = "ds_enunciado")
 	private String enunciado;
 	
@@ -25,6 +33,7 @@ public class Questao {
 	@Column(name = "ds_respostaD")
 	private String respostaD;
 	
+	
 	@Column(name = "in_respCerta")
 	private String respCerta;
 
@@ -33,14 +42,6 @@ public class Questao {
 
 	@Column(name = "in_tipo")
 	private String tipo;
-	
-	public int getIdQuestao() {
-		return idQuestao;
-	}
-
-	public void setId(int idQuestao) {
-		this.idQuestao = idQuestao;
-	}
 
 	public String getEnunciado() {
 		return enunciado;

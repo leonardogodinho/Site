@@ -6,7 +6,7 @@
    if(q==null)
    {
 	   q = new Questao();
-	   q.setId(0);
+	   q.setIdQuestao(0);
 	   q.setEnunciado("");
 	   q.setRespostaA("");
 	   q.setRespostaB("");
@@ -52,17 +52,17 @@
             </div>
             <div class="grid-3-12">
             	<label class="bold">Status</label>
-                <ul class="formee-list" name="status">
+                <select class="no-margin" name="status">
                 	<%
 						String aux = "", aux1 = "";
 						if(q.getStatus().equals("A"))
 							aux = "selected";
 						if(q.getStatus().equals("C"))
 							aux1 = "selected";
-						out.write("<li><input type='radio' value='A' id='ativo' checked><label for='ativo' " + aux + ">Habilitada</label</li>");
-						out.write("<li><input type='radio' value='C' id='inativo'><label for='inativo' " + aux1 + ">Desabilitada</label</li>");								
+						out.write("<option value='A' id='ativo' "  + aux + " >Habilitada</option>");
+						out.write("<option value='C' id='inativo' " + aux1 + ">Desabilitada</option>");								
 					%>
-                </ul>
+                </select>
             </div>
             <div class="grid-12-12">
             	<label for="alternativa-a" class="bold">Alternativa A</label>
@@ -82,7 +82,7 @@
 			</div>
 			<div class="grid-2-12">
                 <label for="resposta">Alternativa Correta <em class="formee-req">*</em></label>
-                <input  type="text" list="respCerta" id="resposta" name="resposta" placeholder="Digite ou Escolha" class="no-margin formee-list" required>
+                <input  type="text" list="respCerta" id="resposta" name="respCerta" placeholder="Digite ou Escolha" class="no-margin formee-list" required>
                 <datalist id="respCerta">
                     <option value="A" id="resp-a"></option>
                     <option value="B" id="resp-b"></option>
@@ -93,7 +93,7 @@
             <div class="grid-6-12"></div>
             <div class="grid-4-12">
             	<input type="hidden" name="tela" value="TelaQuestao" />
-                <input type="submit" value="Cadastrar" name="tela" class="formee-medium align_center last" >
+                <input type="submit" value="Cadastrar" name="comando" class="formee-medium align_center last" >
 			</div>
 	</fieldset>
 </form>
@@ -122,7 +122,9 @@
 							out.write("<td class='grid-1-12'>" + q.getStatus() + "</td>");
 						//out.write("<td>" + (q.getTipo().equals("G") ? "Geral" : "Específica") + "</td>");
 						request.setAttribute("questaoEditar",q);
-						out.write("<td><input type='submit' name='comando' value='Editar' /></td>");
+						//out.write("<td><input type='submit' name='comando' value='Editar " + q.getIdQuestao() + "' /></td>");
+						out.write("<input type='hidden' name='tela' value='TelaQuestao' />");
+						out.write("<td><a href='http://localhost:8080/SGV/Controle?tela=TelaQuestao&comando=Editar&id=" + q.getIdQuestao() + "' />Editar</a></td>");
 						out.write("</tr>");
 						
 				   }	
